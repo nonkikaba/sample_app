@@ -15,4 +15,12 @@ has_secure_passwordの説明
 =end
   validates :password, presence: true, length: { minimum: 6 }
   # passwordに設定したvalidationはpassword_confirmationにも設定される
+
+  # 渡された文字列のハッシュ値を返す
+  def User.digest(string)
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+                                                  BCrypt::Engine.cost
+    BCrypt::Password.create(string, cost: cost)
+    #テスト環境では時間をかけて複雑なハッシュ化をする必要がないので、costオプションで簡単なものにしている
+  end
 end
