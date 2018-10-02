@@ -18,6 +18,7 @@ has_secure_passwordの説明
 
   # 渡された文字列のハッシュ値を返す
   def User.digest(string)
+    #クラスメソッド
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
                                                   BCrypt::Engine.cost
     BCrypt::Password.create(string, cost: cost)
