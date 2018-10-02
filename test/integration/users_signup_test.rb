@@ -23,5 +23,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     end
     follow_redirect!
     assert_template 'users/show'
+    assert is_logged_in?
+    #signup完了後はログイン状態
   end
 end
