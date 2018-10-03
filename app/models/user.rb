@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  attr_accessor :remember
+
   validates :name,  presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   #VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -23,5 +25,10 @@ has_secure_passwordの説明
                                                   BCrypt::Engine.cost
     BCrypt::Password.create(string, cost: cost)
     #テスト環境では時間をかけて複雑なハッシュ化をする必要がないので、costオプションで簡単なものにしている
+  end
+
+  #ランダムなトークンを返す
+  def User.new_token
+    SecureRandom.urlsafe_base64
   end
 end
