@@ -35,7 +35,8 @@ has_secure_passwordの説明
   #永続セッションのためにユーザーをデータベースに記憶する
   def remember
     self.remember_token = User.new_token
-    self.update_attribute(:remember_digest, User.digest(remember_token))
+    #代入文であり、代入文の左辺の場合はselfを省略できない
+    update_attribute(:remember_digest, User.digest(remember_token))
     #update_attributeを使うとvalidationをスキップできる
   end
 end
