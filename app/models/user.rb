@@ -39,4 +39,9 @@ has_secure_passwordの説明
     update_attribute(:remember_digest, User.digest(remember_token))
     #update_attributeを使うとvalidationをスキップできる
   end
+
+  #渡されたトークンがダイジェストと一致したらtrueを返す
+  def authenticated?(remember_token)
+    BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  end
 end
