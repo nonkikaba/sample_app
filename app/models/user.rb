@@ -3,7 +3,6 @@ class User < ApplicationRecord
 
   validates :name,  presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  #VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: {case_sensitive: false}
@@ -15,8 +14,9 @@ has_secure_passwordの説明
     2つのペアの仮想的な属性 (passwordとpassword_confirmation) が使えるようになる。また、存在性と値が一致するかどうかのバリデーションも追加される。
     authenticateメソッドが使えるようになる (引数の文字列がパスワードと一致するとUserオブジェクトを、間違っているとfalseを返すメソッド) 
 =end
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
   # passwordに設定したvalidationはpassword_confirmationにも設定される
+  # allow_nilオプションがtrueになっているが、has_secure_passwordではオブジェクト生成時に存在性をチェックしているのでからのパスワードが新規ユーザー登録時に有効になることはない
 
   # 渡された文字列のハッシュ値を返す
   def User.digest(string)

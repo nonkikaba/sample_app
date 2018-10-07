@@ -1,0 +1,17 @@
+<% provide(:title, 'All users') %>
+<h1>All users</h1>
+
+<%= will_paginate @users %>
+
+<ul class="users">
+  <%= render @users %>
+  <%# ＠userはActiveRecordを継承したモデルのインスタンスの集合体.
+  @usersの各要素userを自動的に展開。下記のeach文と同義　%>
+
+  <%#% @users.each do |user| %>
+    <%#= render user %>
+    <%# userはActiveRecordを継承したモデルのインスタンス　%>
+  <%# end %>
+</ul>
+
+<%= will_paginate @users %>

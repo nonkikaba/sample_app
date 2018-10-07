@@ -3,6 +3,11 @@ source 'https://rubygems.org'
 gem 'rails',        '5.1.6'
 gem 'bcrypt',         '3.1.12'
 # パスワードをハッシュ化するためのハッシュ関数
+gem 'faker',          '1.7.3'
+# コンピュータにユーザーを自動生成してもらう
+gem 'will_paginate',           '3.1.6'
+gem 'bootstrap-will_paginate', '1.0.0'
+# ページネーションのデザインをbootstrapで行ってくれる
 gem 'bootstrap-sass', '3.3.7'
 gem 'puma',         '3.9.1'
 gem 'sass-rails',   '5.0.6'
