@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:session][:password])
       log_in user
       params[:session][:remember_me] == '1' ? remember(user) : forget(user)
-      redirect_to user
+      redirect_back_or user
     else
       # flash[:danger] = "Invalid email/password combination"
       # flashの生存期間は次のリクエストが来るまで。renderは新しいリクエストを発行するわけではないのでこのままだとflashメッセージが生き残る。flash.now[]とすると解決
