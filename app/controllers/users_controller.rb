@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :edit, :update]
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
   # patchリクエストを直接飛ばせば、updateアクションを直接実行できるためbeforeフィルターにupdateアクションを追加している
   before_action :correct_user,   only: [:edit, :update]
+  before_action :admin_user, only: :destroy
 
   def index
     @users = User.paginate(page: params[:page])
@@ -42,6 +43,13 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    User.find(params[:id]).destroy
+    flash[:success] = "User deleted"
+    redirect_to users_url
+  end
+
+
   private
 
     def user_params
@@ -64,4 +72,9 @@ class UsersController < ApplicationController
     end
     # logged_in_userメソッドでログイン状態を確認しているので、correct_userメソッドでは確認する必要がない.
     # current_userのnilチェックは必要ない
+
+    #管理者かどうか確認
+    def admin_user
+      redirect_to(root_url) unless current_user.admin?
+    end
 end
