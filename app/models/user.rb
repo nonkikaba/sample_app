@@ -1,5 +1,10 @@
 class User < ApplicationRecord
-  attr_accessor :remember_token
+  attr_accessor :remember_token, :activation_token
+  # セッターとゲッターを用意して、一時的に保存する
+  before_save   :downcase_email
+  # DBに新しくデータが保存される時も、データが更新される時もどちらも反応する
+  before_create :create_activation_digest
+  # DBに新しくデータが保存される時だけ反応する
 
   validates :name,  presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -50,4 +55,20 @@ has_secure_passwordの説明
   def forget
     update_attribute(:remember_digest, nil)
   end
+
+  private
+
+    # メールアドレスを全て小文字にする
+    def downcase_email
+      self.email = self.email.downcase
+    end
+
+    # 有効化トークンとダイジェストを作成及び代入する
+    def create_activation_digest
+      self.activation_token = User.new_token
+      # activation_tokenは仮想的なものでDBには存在しない。attr_accessorで作った場所に一時的に保存される。
+      self.activation_digest = User.digest(self.activation_token)
+      # activation_digestはDBに存在する
+    end
+
 end
