@@ -22,8 +22,8 @@ class UsersController < ApplicationController
     if @user.save #=> validation
       UserMailer.account_activation(@user).deliver_now
       # deliver_now: 返ってきたmailオブジェクトを送信する。
-      flash[:success] = "Welcome to the Sample App!"
-      redirect_to @user
+      flash[:info] = "Please check your email to activate your account."
+      redirect_to root_url
     else
       render 'new'
     end
