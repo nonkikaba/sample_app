@@ -26,7 +26,7 @@ module SessionsHelper
       #session情報はないが、cookie情報は保存されている場合
       #ここでのuser_idは署名付きuser_idなので復号化する必要がある。複合化するにはsignedとつければ良い。逆に暗号化する場合もsignedをつければ暗号化できる
       user = User.find_by(id: user_id)
-      if user && user.authenticated?(cookies[:remember_token])
+      if user && user.authenticated?(:remember, cookies[:remember_token])
         log_in user
         @current_user = user
       end 
