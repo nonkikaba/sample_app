@@ -57,6 +57,18 @@ has_secure_passwordの説明
     update_attribute(:remember_digest, nil)
   end
 
+  # アカウントを有効にする
+  def activate
+    update_attribute(:activated,    true)
+    update_attribute(:activated_at, Time.zone.now)
+  end
+
+  # 有効化用のメールを送信する
+  def send_activation_email
+    UserMailer.account_activation(self).deliver_now
+  end
+  # メソッドとして作成すれば、何を行なっているかわかりやすくなる
+
   private
 
     # メールアドレスを全て小文字にする
