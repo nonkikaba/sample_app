@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
     # => Userオブジェクト　または false
 
     if user && user.authenticate(params[:session][:password])
-      if user..activated?
+      if user.activated?
         # メール認証が済んでいなければログインさせない
         log_in user
         params[:session][:remember_me] == '1' ? remember(user) : forget(user)
