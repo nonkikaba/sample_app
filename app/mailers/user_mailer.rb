@@ -8,8 +8,8 @@ class UserMailer < ApplicationMailer
     # =>  app/views/user_mailer/account_activation.html.erb
   end
 
-  def password_reset
-    @greeting = "Hi"
-    mail to: "to@example.org"
+  def password_reset(user)
+    @user = user
+    mail to: user.email, subject: "Password reset"
   end
 end
