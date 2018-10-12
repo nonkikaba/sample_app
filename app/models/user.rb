@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  attr_accessor :remember_token, :activation_token
+  attr_accessor :remember_token, :activation_token, :reset_token
   # セッターとゲッターを用意して、一時的に保存する
   before_save   :downcase_email
   # DBに新しくデータが保存される時も、データが更新される時もどちらも反応する
@@ -68,6 +68,13 @@ has_secure_passwordの説明
     UserMailer.account_activation(self).deliver_now
   end
   # メソッドとして作成すれば、何を行なっているかわかりやすくなる
+
+  # パスワード再設定の属性を設定する
+  def create_reset_digest
+    self.reset_token = User.new_token
+    update_attribute(:reset_digest, User.digest(reset_token))
+    update_attribute(:reset_sent_at, Time.zone.now)
+  end
 
   private
 
