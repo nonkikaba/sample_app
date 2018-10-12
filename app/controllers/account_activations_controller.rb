@@ -4,8 +4,7 @@ class AccountActivationsController < ApplicationController
     if user && !user.activated? && user.authenticated?(:activation, params[:id])
       # userのinboxにメールがすでに送られ、すでにクリックしていた場合に備えて
       # なんどもリンクをクリックされると困る(userが２回以上リンクをクリックする場合に対応)
-      user.update_attribute(:activated, true)
-      user.update_attribute(:activated_at, Time.zone.now)
+      user.activate
       log_in user
       flash[:success] = "Account activated!"
       redirect_to user
