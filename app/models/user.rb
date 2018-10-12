@@ -76,6 +76,11 @@ has_secure_passwordの説明
     update_attribute(:reset_sent_at, Time.zone.now)
   end
 
+  # パスワード再設定用のメールを送信する
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
+  end
+
   private
 
     # メールアドレスを全て小文字にする
