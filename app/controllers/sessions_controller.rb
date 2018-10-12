@@ -9,9 +9,17 @@ class SessionsController < ApplicationController
     # => Userオブジェクト　または false
 
     if user && user.authenticate(params[:session][:password])
-      log_in user
-      params[:session][:remember_me] == '1' ? remember(user) : forget(user)
-      redirect_back_or user
+      if user..activated?
+        # メール認証が済んでいなければログインさせない
+        log_in user
+        params[:session][:remember_me] == '1' ? remember(user) : forget(user)
+        redirect_back_or user
+      else
+        message  = "Account not activated. "
+        message += "Check your email for the activation link."
+        flash[:warning] = message
+        redirect_to root_url
+      end
     else
       # flash[:danger] = "Invalid email/password combination"
       # flashの生存期間は次のリクエストが来るまで。renderは新しいリクエストを発行するわけではないのでこのままだとflashメッセージが生き残る。flash.now[]とすると解決
