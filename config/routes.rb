@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   resources :users
   resources :account_activations, only: [:edit]
+  resources :password_resets,     only: [:new, :create, :edit, :update]
   # GET /account_activations/:id/edit
   # params[:id] <== 有効化トークン。{ params : { id: 有効化トークン,.....} }
   
