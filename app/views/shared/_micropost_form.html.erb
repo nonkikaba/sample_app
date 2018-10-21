@@ -1,0 +1,11 @@
+
+<!-- @micropostはstatic_pages_controllerのhomeアクションで定義する-->
+<!-- パスは POST /microposts となるので、microposts_controllerのcreateアクションに送られる　-->
+<%= form_for(@micropost) do |f| %>
+<!--今まではuserオブジェクトに関するエラーメッセージだったが、今回はmicropostオブジェクトに関するエラーメッセージを表示したいため、f.objectで抽象化する-->
+  <%= render 'shared/error_messages', object: f.object %>
+  <div class="field">
+    <%= f.text_area :content, placeholder: "Compose new micropost..." %>
+  </div>
+  <%= f.submit "Post", class: "btn btn-primary" %>
+<% end %>
