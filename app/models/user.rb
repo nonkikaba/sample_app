@@ -82,6 +82,12 @@ has_secure_passwordの説明
     UserMailer.password_reset(self).deliver_now
   end
 
+  # 試作feedの定義
+  # 完全な実装は次章の「ユーザーをフォローする」を参照
+  def feed
+    Micropost.where("user_id = ?", id)
+  end
+
   private
 
     # メールアドレスを全て小文字にする
@@ -96,5 +102,7 @@ has_secure_passwordの説明
       self.activation_digest = User.digest(self.activation_token)
       # activation_digestはDBに存在する
     end
+
+
 
 end
