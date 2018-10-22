@@ -1,6 +1,12 @@
 class PictureUploader < CarrierWave::Uploader::Base
-  
-    storage :file
+    include CarrierWave::MiniMagick
+    process resize_to_limit: [400, 400]
+
+    if Rails.env.production?
+      storage :fog
+    else
+      storage :file
+    end
   # storage :fog
 
   # Override the directory where uploaded files will be stored.
@@ -31,9 +37,10 @@ class PictureUploader < CarrierWave::Uploader::Base
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
-  # def extension_whitelist
-  #   %w(jpg jpeg gif png)
-  # end
+  def extension_whitelist
+    %w(jpg jpeg gif png)
+  end
+  # これはバックエンド側でバリデーションをかけるものなので、フロントエンドではアップロードできてしまう。
 
   # Override the filename of the uploaded files:
   # Avoid using model.id or version_name here, see uploader/store.rb for details.
