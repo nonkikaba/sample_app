@@ -1,5 +1,6 @@
 class User < ApplicationRecord
-  attr_accessor :remember_token, :activation_token
+  has_many :microposts, dependent: :destroy
+  attr_accessor :remember_token, :activation_token, :reset_token
   # セッターとゲッターを用意して、一時的に保存する
   before_save   :downcase_email
   # DBに新しくデータが保存される時も、データが更新される時もどちらも反応する
@@ -69,6 +70,24 @@ has_secure_passwordの説明
   end
   # メソッドとして作成すれば、何を行なっているかわかりやすくなる
 
+  # パスワード再設定の属性を設定する
+  def create_reset_digest
+    self.reset_token = User.new_token
+    update_attribute(:reset_digest, User.digest(reset_token))
+    update_attribute(:reset_sent_at, Time.zone.now)
+  end
+
+  # パスワード再設定用のメールを送信する
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
+  end
+
+  # 試作feedの定義
+  # 完全な実装は次章の「ユーザーをフォローする」を参照
+  def feed
+    Micropost.where("user_id = ?", id)
+  end
+
   private
 
     # メールアドレスを全て小文字にする
@@ -83,5 +102,7 @@ has_secure_passwordの説明
       self.activation_digest = User.digest(self.activation_token)
       # activation_digestはDBに存在する
     end
+
+
 
 end
