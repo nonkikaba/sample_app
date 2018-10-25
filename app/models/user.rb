@@ -93,10 +93,20 @@ has_secure_passwordの説明
     UserMailer.password_reset(self).deliver_now
   end
 
-  # 試作feedの定義
-  # 完全な実装は次章の「ユーザーをフォローする」を参照
+  # ユーザーのステータスフィードを返す
   def feed
-    Micropost.where("user_id = ?", id)
+    # Micropost.where("user_id IN (?) OR user_id = ?", following_ids, id)
+
+    # following_idsはhas_manyを定義すると使えるようになる。集合に対してidだけを取得できる。
+    # following_idsを実行した結果は配列だが、whereメソッドが判断して、文字列に変換してくれる。
+    # 上のコードはwhereとfollowing_idsで２回呼び出しを行なっている。
+
+    following_ids = "SELECT followed_id FROM relationships
+                     WHERE follower_id = :user_id"
+    Micropost.where("user_id IN (#{following_ids})
+                     OR user_id = :user_id", user_id: id)
+    # 上のコードはSQL内で式展開しているが、文字列の中に文字列を代入しているだけなので、ユーザーが改変する余地はない。
+  end
   end
 
   # ユーザーをフォローする
