@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   # GET /account_activations/:id/edit
   # params[:id] <== 有効化トークン。{ params : { id: 有効化トークン,.....} }
   resources :microposts,          only: [:create, :destroy]
+  resources :relationships,       only: [:create, :destroy]
   
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
