@@ -107,7 +107,6 @@ has_secure_passwordの説明
                      OR user_id = :user_id", user_id: id)
     # 上のコードはSQL内で式展開しているが、文字列の中に文字列を代入しているだけなので、ユーザーが改変する余地はない。
   end
-  end
 
   # ユーザーをフォローする
   def follow(other_user)
