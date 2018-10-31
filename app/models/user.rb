@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_many :microposts, dependent: :destroy
   has_many :active_relationships, class_name: 'Relationship',
-            # active_relationshipというクラスはないが、class_nameオプションでクラス名をして指定している。
+            # active_relationshipというクラスはないが、class_nameオプションでクラス名を指定している。
             foreign_key: :follower_id,
             # デフォルトではuser_idとひもづくが、Relationshipクラスにはないので、明示している。
             dependent: :destroy
