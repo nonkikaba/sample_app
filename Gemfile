@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
 
 gem 'rails',        '5.1.6'
-gem 'bcrypt',         '3.1.12'
 # パスワードをハッシュ化するためのハッシュ関数
+gem 'bcrypt',         '3.1.12'
+
 gem 'faker',          '1.7.3'
 # コンピュータにユーザーを自動生成してもらう
 gem 'carrierwave',             '1.2.2'
